@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <title>Edit</title>
+    <style>
+        body {
+            background-color: rgba(128, 128, 128, 0.256);
+        }
+
+        .card {
+            margin: 20vh;
+        }
+
+        .card-img-top {
+            opacity: 75%;
+        }
+
+        input {
+            margin: 1.5rem;
+            border: 0px;
+            background-color: rgba(128, 128, 128, 0.256);
+            padding: 5px 10px;
+        }
+
+        select {
+            margin: 1.5rem;
+            border: 0px;
+            background-color: rgba(128, 128, 128, 0.256);
+            padding: 5px 10px;
+        }
+
+        .btn {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+        <div class="container text-center">
+            <a href="/Home" class="navbar-brand"><img th:src="@{/images/CarXotica.png}" height="70px" width="100px"
+                    style="opacity: 80%; border-radius: 10%;"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"><span
+                    class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="/Home" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Add" class="nav-link">Buy Tickets</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/View" class="nav-link">View Tickets</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_VENDOR')">
+                        <a href="/Statistics" class="nav-link">Statistics</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <a th:href="@{/logout}" class="nav-link">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div>
+        <center>
+            <div class="card" style="width: 45rem; height: 55rem;">
+                <img src="/images/Car.png" class="card-img-bottom">
+                <div class="card-body">
+                    <h4 class="card-title">Registration</h4>
+                    <div class="card-body">
+                        <form action="/Edit" method="post" th:object="${ticket}" class="form">
+                            <input type="hidden" th:field="*{id}">
+                            <div class="form-group">
+                                Name : <select th:field="*{personName}" class="rounded-pill">
+                                    <option th:each="n : ${names}" th:text="${n}" th:value="${n}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                Gender : <select th:field="*{gender}" class="rounded-pill">
+                                    <option th:each="g : *{genders}" th:text="${g}" th:value="${g}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                Age : <input type="text" name="age" th:field="*{age}" class="rounded-pill">
+                            </div>
+                            <div class="form-group">
+                                Zone : <select th:field="*{viewZone}" class="rounded-pill">
+                                    <option th:each="z : *{zones}" th:text="${z}" th:value="${z}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                Number of tickets : <input type="text" name="tickets" th:field="*{tickets}"
+                                    class="rounded-pill">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Edit Tickets</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
